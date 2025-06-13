@@ -1,7 +1,3 @@
-Based on the detailed analysis of your uploaded files—**FinalDocs-Mock Interview\.pdf**, **Mock\_Interview\_ppt.pdf**, source code, and the flowchart—you have a comprehensive and technically robust AI-powered mock interview system.
-
-Here’s a tailored `README.md` file that summarizes and documents your entire project:
-
 ---
 
 # 💼 AI-Powered Mock Interview Preparation System
