@@ -1,5 +1,3 @@
----
-
 # 💼 AI-Powered Mock Interview Preparation System
 
 ## 🔍 Overview
