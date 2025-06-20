@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email - InterviewGenius</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            background: #1d3557;
+            border-radius: 10px 10px 0 0;
+        }
+        .logo {
+            width: 150px;
+            height: auto;
+            margin: 0 auto;
+            display: block;
+        }
+        .content {
+            padding: 30px;
+            background: white;
+        }
+        h1 {
+            color: #1d3557;
+            font-size: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .verification-button {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #e63946;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 20px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+        .stars {
+            color: #ffd700;
+            font-size: 20px;
+            text-align: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <img src="/templates/images/logo1.jpg"
+                 alt="InterviewGenius"
+                 class="logo"
+                 width="150"
+                 height="150"
+                 style="display: block; margin: 0 auto; width: 150px; height: auto;">
+        </div>
+        <div class="content">
+            <div class="stars">⭐ ⭐ ⭐</div>
+            <h1>Welcome to InterviewGenius!</h1>
+            <p>Thank you for joining us. Get ready to master your interviews with confidence!</p>
+            <p>Please verify your email to access our expert resources and tips:</p>
+            <center>
+                <a href="{{ verification_url }}" class="verification-button">
+                    Verify Email Address
+                </a>
+            </center>
+            <p>This verification link will expire in {{ valid_hours }} hours.</p>
+            <p>If you didn't sign up for InterviewGenius, you can ignore this email.</p>
+            <div class="stars">⭐ ⭐ ⭐</div>
+        </div>
+        <div class="footer">
+            <p>© 2025 InterviewGenius. All rights reserved.</p>
+            <p>Your Path to Interview Success Starts Here</p>
+        </div>
+    </div>
+</body>
+</html>

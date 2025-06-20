@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - InterviewGenius </title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #2c3e50;
+            padding: 0.7rem 5%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .login-container {
+            max-width: 400px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0,0,0,0.1);
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header h1 {
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: #7f8c8d;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #7f8c8d;
+        }
+
+        .forgot-password {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+
+        .button {
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .primary-button {
+            background-color: #3498db;
+            color: white;
+            width: 100%;
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .primary-button:hover {
+            background-color: #2980b9;
+        }
+
+        .register-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: #7f8c8d;
+        }
+
+        .register-link a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        .error-message {
+            display: none;
+            background-color: #ff6b6b;
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        /* OTP Form Styles */
+        #otp-form {
+            display: none;
+        }
+
+        .otp-container {
+            margin-top: 1rem;
+        }
+
+        .otp-inputs {
+            display: flex;
+            justify-content: space-between;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .otp-input {
+            width: 3rem;
+            height: 3rem;
+            text-align: center;
+            font-size: 1.2rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .resend-otp {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .resend-otp button {
+            background: none;
+            border: none;
+            color: #3498db;
+            cursor: pointer;
+        }
+
+        .resend-otp button:disabled {
+            color: #7f8c8d;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/templates/images/logo1.jpg" alt="InterviewGenius Logo" width="30" height="30">
+            <span>InterviewGenius</span>
+        </div>
+    </nav>
+
+    <div class="login-container">
+        <div class="login-header">
+            <h1>Welcome Back</h1>
+            <p>Please enter your credentials to continue</p>
+        </div>
+
+        <div id="error-message" class="error-message"></div>
+
+        <!-- Login Form -->
+        <form class="login-form" id="login-form">
+            <div class="form-group">
+                <label for="username">Email</label>
+                <input type="email" id="username" name="username" required
+                       placeholder="Enter your email">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required
+                       placeholder="Enter your password">
+            </div>
+
+            <div class="remember-forgot">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember">
+                    Remember me
+                </label>
+                <a href="/password-reset" class="forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="button primary-button">Login</button>
+
+            <div class="register-link">
+                Don't have an account? <a href="/register">Register here</a>
+            </div>
+        </form>
+
+        <form id="otp-form" style="display: none;">
+            <div class="form-group">
+                <label>Enter OTP sent to your email</label>
+                <div class="otp-inputs">
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                    <input type="text" class="otp-input" maxlength="1" pattern="[0-9]" required>
+                </div>
+            </div>
+            <button type="submit" class="button primary-button">Verify OTP</button>
+            <div class="resend-otp">
+                <button type="button" id="resend-button" disabled>
+                    Resend OTP in <span id="timer">60</span>s
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+      // auth.js - Authentication utilities for session-based token management
+const authService = {
+
+    async checkAuth() {
+        try {
+            const response = await fetch('/check-auth');
+            return response.ok;
+        } catch (error) {
+            console.error('Auth check failed:', error);
+            window.location.href = '/login';
+            return false;
+        }
+    },
+
+    async makeAuthenticatedRequest(url, options = {}) {
+        try {
+            const response = await fetch(url, {
+                ...options,
+                headers: {
+                    'Content-Type': 'application/json',
+                    ...options.headers
+                },
+                credentials: 'include' // Important for sending cookies
+            });
+
+            if (response.status === 401) {
+                window.location.href = '/login';
+                return null;
+            }
+
+            return response;
+        } catch (error) {
+            console.error('Request error:', error);
+            throw error;
+        }
+    }
+};
+
+// Main authentication flow
+document.addEventListener('DOMContentLoaded', () => {
+    let userEmail = '';
+    const loginForm = document.getElementById('login-form');
+    const otpForm = document.getElementById('otp-form');
+    const errorMessage = document.getElementById('error-message');
+    const resendButton = document.getElementById('resend-button');
+    const timerSpan = document.getElementById('timer');
+
+    // OTP input handling
+    const otpInputs = document.querySelectorAll('.otp-input');
+    otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length === 1) {
+                if (index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+                // Auto-submit when all digits are filled
+                if (index === otpInputs.length - 1) {
+                    const allFilled = Array.from(otpInputs).every(input => input.value.length === 1);
+                    if (allFilled) {
+                        otpForm.dispatchEvent(new Event('submit'));
+                    }
+                }
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                otpInputs[index - 1].focus();
+            }
+        });
+
+        input.addEventListener('keypress', (e) => {
+            if (!/[0-9]/.test(e.key)) {
+                e.preventDefault();
+            }
+        });
+    });
+
+    function showError(message) {
+        errorMessage.textContent = message;
+        errorMessage.style.display = 'block';
+    }
+
+    function startResendTimer() {
+        let timeLeft = 60;
+        resendButton.disabled = true;
+        resendButton.textContent = `Resend OTP (${timeLeft}s)`;
+
+        const timer = setInterval(() => {
+            timeLeft--;
+            timerSpan.textContent = timeLeft;
+            resendButton.textContent = `Resend OTP (${timeLeft}s)`;
+
+            if (timeLeft <= 0) {
+                clearInterval(timer);
+                resendButton.disabled = false;
+                resendButton.textContent = 'Resend OTP';
+            }
+        }, 1000);
+    }
+
+    // Login form submission
+    loginForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('username', document.getElementById('username').value);
+        formData.append('password', document.getElementById('password').value);
+
+        try {
+            const response = await fetch('/token', {
+                method: 'POST',
+                body: formData,
+                credentials: 'include' // Important for sending cookies
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                if (data.requires_otp) {
+                    userEmail = data.email;
+                    loginForm.style.display = 'none';
+                    otpForm.style.display = 'block';
+                    startResendTimer();
+                } else {
+                    // Session cookie is automatically handled by the browser
+                    window.location.href = '/dashboard';
+                }
+            } else {
+                showError(data.detail || 'Login failed. Please check your credentials.');
+            }
+        } catch (error) {
+            console.error('Login error:', error);
+            showError('An error occurred. Please try again later.');
+        }
+    });
+
+    // OTP form submission
+    otpForm?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const otp = Array.from(otpInputs).map(input => input.value).join('');
+    if (otp.length !== otpInputs.length) {
+        showError('Please enter all OTP digits');
+        return;
+    }
+
+    try {
+        const response = await fetch('/verify-otp', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                email: userEmail,
+                otp: otp
+            }),
+            credentials: 'include' // Ensure cookies are sent and received
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Redirect to the provided URL
+            if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            } else {
+                window.location.href = '/dashboard'; // Fallback in case redirect_url is missing
+            }
+        } else {
+            // Show error message from the backend
+            showError(data.detail || 'Invalid OTP. Please try again.');
+            otpInputs.forEach(input => input.value = '');
+            otpInputs[0].focus();
+        }
+    } catch (error) {
+        console.error('OTP verification error:', error);
+        showError('An error occurred. Please try again later.');
+    }
+});
+
+
+    // Resend OTP handler
+    resendButton?.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/resend-otp', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ email: userEmail }),
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                startResendTimer();
+                showError('OTP has been resent to your email.');
+            } else {
+                const data = await response.json();
+                showError(data.detail || 'Failed to resend OTP.');
+            }
+        } catch (error) {
+            console.error('Resend OTP error:', error);
+            showError('An error occurred. Please try again later.');
+        }
+    });
+
+    // Clear error on input
+    document.querySelectorAll('input').forEach(input => {
+        input.addEventListener('input', () => {
+            errorMessage.style.display = 'none';
+        });
+    });
+
+    // Check authentication on protected pages
+    if (window.location.pathname !== '/login') {
+        authService.checkAuth();
+    }
+});
+
+// Add interceptor for API requests
+(function addRequestInterceptor() {
+    const originalFetch = window.fetch;
+    window.fetch = async function(...args) {
+        const [url, options = {}] = args;
+
+        // Add credentials to all requests
+        options.credentials = 'include';
+
+        try {
+            const response = await originalFetch(url, options);
+            if (response.status === 401) {
+                window.location.href = '/login';
+            }
+            return response;
+        } catch (error) {
+            console.error('Request failed:', error);
+            throw error;
+        }
+    };
+})();
+    </script>
+</body>
+</html>

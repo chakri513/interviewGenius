@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tech Knowledge Quiz</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <style>
+        :root {
+            --primary: #4785FF;
+            --secondary: #1d4ed8;
+            --background: #cbd2de;;
+            --text: #e2e8f0;
+            --card-bg: #2c3e50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .quiz-setup {
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quiz-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .quiz-header h1 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .quiz-header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+        }
+
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .subject-card {
+            background: rgba(59, 130, 246, 0.1);
+            border: 2px solid transparent;
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .subject-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .subject-card.selected {
+            background: var(--primary);
+            border-color: var(--secondary);
+            color: white;
+        }
+
+        .subject-card i {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 100%;
+            font-size: 1.1rem;
+        }
+
+        button:hover {
+            background: var(--secondary);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .quiz-content {
+            display: none;
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .question-card {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 0.8rem;
+            margin-bottom: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            color: white;
+        }
+
+        .options-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+
+        .option-card {
+            padding: 1.2rem;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .option-card:hover {
+            border-color: var(--primary);
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .option-card.selected {
+            background: var(--primary);
+            border-color: var(--secondary);
+            color: white;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--primary);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .results {
+            display: none;
+            text-align: center;
+            background: var(--card-bg);
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .score-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 10px solid var(--primary);
+            margin: 2rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .score-circle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 180%;
+            height: 180%;
+            background: linear-gradient(45deg, rgba(59, 130, 246, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease forwards;
+        }
+
+        #feedback {
+            margin-top: 2rem;
+            color: #94a3b8;
+        }
+
+        #feedback p {
+            margin: 0.5rem 0;
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            background: rgba(59, 130, 246, 0.1);
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="quiz-setup fade-in">
+            <div class="quiz-header">
+                <h1>Tech Quiz Challenge</h1>
+                <p>Test your knowledge in cutting-edge technology domains!</p>
+            </div>
+            <div class="subject-grid">
+                <div class="subject-card" data-subject="machine_learning">
+                    <i class="fas fa-brain"></i>
+                    <h3>Machine Learning</h3>
+                </div>
+                <div class="subject-card" data-subject="data_analytics">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Data Analytics</h3>
+                </div>
+                <div class="subject-card" data-subject="web_development">
+                    <i class="fas fa-code"></i>
+                    <h3>Web Development</h3>
+                </div>
+            </div>
+            <button id="startQuiz" disabled>Start Challenge</button>
+        </div>
+
+        <div class="quiz-content">
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+            <div id="questionContainer"></div>
+            <button id="submitAnswer" style="display: none;">Next Question</button>
+            <button id="submitQuiz" style="display: none;">Submit Quiz</button>
+        </div>
+
+        <div class="results">
+            <h2>Challenge Complete!</h2>
+            <div class="score-circle">
+                <span id="finalScore">0%</span>
+            </div>
+            <div id="feedback"></div>
+            <button onclick="location.reload()">Take Another Challenge</button>
+        </div>
+    </div>
+
+    <script>
+        let currentQuiz = null;
+        let currentQuestion = 0;
+        let userAnswers = [];
+        let selectedSubject = null;
+
+        // Handle subject selection
+        document.querySelectorAll('.subject-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.subject-card').forEach(c => c.classList.remove('selected'));
+                this.classList.add('selected');
+                selectedSubject = this.dataset.subject;
+                document.getElementById('startQuiz').disabled = false;
+            });
+        });
+
+        document.getElementById('startQuiz').addEventListener('click', async () => {
+            if (!selectedSubject) return;
+
+            try {
+                const response = await fetch('/quiz/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        subject: selectedSubject,
+                        num_questions: 10
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to generate quiz');
+
+                currentQuiz = await response.json();
+                document.querySelector('.quiz-setup').style.display = 'none';
+                document.querySelector('.quiz-content').style.display = 'block';
+                showQuestion(0);
+            } catch (error) {
+                alert('Failed to generate quiz: ' + error.message);
+            }
+        });
+
+        function showQuestion(index) {
+            const question = currentQuiz.questions[index];
+            const container = document.getElementById('questionContainer');
+            const progress = ((index + 1) / currentQuiz.questions.length) * 100;
+
+            document.querySelector('.progress-fill').style.width = `${progress}%`;
+
+            container.innerHTML = `
+                <div class="question-card fade-in">
+                    <div class="question-text">${question.text}</div>
+                    <div class="options-grid">
+                        ${question.options.map(option => `
+                            <div class="option-card" data-option-id="${option.id}">
+                                ${option.text}
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+
+            const isLastQuestion = index === currentQuiz.questions.length - 1;
+            document.getElementById('submitAnswer').style.display = isLastQuestion ? 'none' : 'block';
+            document.getElementById('submitQuiz').style.display = isLastQuestion ? 'block' : 'none';
+
+            document.querySelectorAll('.option-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    if (question.multiple_correct) {
+                        this.classList.toggle('selected');
+                    } else {
+                        document.querySelectorAll('.option-card').forEach(c => c.classList.remove('selected'));
+                        this.classList.add('selected');
+                    }
+                });
+            });
+        }
+
+        document.getElementById('submitAnswer').addEventListener('click', () => {
+            saveAnswer();
+            currentQuestion++;
+            showQuestion(currentQuestion);
+        });
+
+        document.getElementById('submitQuiz').addEventListener('click', async () => {
+            saveAnswer();
+            try {
+                const response = await fetch('/quiz/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        quiz_id: currentQuiz.id,
+                        answers: userAnswers
+                    })
+                });
+
+                if (!response.ok) throw new Error('Failed to submit quiz');
+
+                const result = await response.json();
+                showResults(result);
+            } catch (error) {
+                alert('Failed to submit quiz: ' + error.message);
+            }
+        });
+
+        function saveAnswer() {
+            const question = currentQuiz.questions[currentQuestion];
+            const selectedOptions = Array.from(document.querySelectorAll('.option-card.selected'))
+                .map(card => card.dataset.optionId);
+
+            userAnswers.push({
+                question_id: question.id,
+                selected_option_ids: selectedOptions
+            });
+        }
+
+        function showResults(result) {
+    document.querySelector('.quiz-content').style.display = 'none';
+    document.querySelector('.results').style.display = 'block';
+
+    // Ensure score is a number and round it
+    const score = Math.round(result.score_percentage || 0);
+
+    // Set the initial score text
+    document.getElementById('finalScore').textContent = `${score}%`;
+
+    // Update the GSAP animation
+    gsap.fromTo("#finalScore",
+        { textContent: 0 },
+        {
+            textContent: score,
+            duration: 2,
+            ease: "power1.out",
+            snap: { textContent: 1 },
+            onUpdate: function() {
+                this.targets()[0].innerHTML = Math.round(this.targets()[0].textContent) + "%";
+            }
+        }
+    );
+
+    const feedbackHtml = result.feedback.map(fb => `<p>${fb}</p>`).join('');
+    document.getElementById('feedback').innerHTML = feedbackHtml;
+}
+    </script>
+</body>
+</html>

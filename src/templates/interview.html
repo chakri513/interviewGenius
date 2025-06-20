@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InterviewGenius</title>
+    <style>
+        /* Reset and base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #f9fafb;
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .logo img {
+            width: 30px;
+            height: 30px;
+        }
+
+        .title {
+            color: #ffffff;
+        }
+        /* Navigation */
+        nav {
+            background-color: #2c3e50;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .nav-container {
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Hide elements by default */
+        .hidden {
+            display: none;
+        }
+
+        /* Welcome Section */
+        #welcomeSection {
+            margin-top:50px;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        #welcomeSection h1 {
+            font-size: 2.25rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        #welcomeSection p {
+            font-size: 1.25rem;
+            color: #6b7280;
+            margin-bottom: 2rem;
+        }
+
+        /* Role Selection */
+        #roleSelection {
+            max-width: 32rem;
+            margin: 0 auto;
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        #roleSelect {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Interview Section */
+        #interviewSection {
+            max-width: 48rem;
+            margin: 0 auto;
+        }
+
+        #questionNumber {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        #timer {
+            font-size: 1.25rem;
+            color: #6b7280;
+        }
+
+        #answerInput {
+            width: 100%;
+            min-height: 150px;
+            padding: 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            margin: 1rem 0;
+            resize: vertical;
+        }
+
+        /* Feedback Section */
+        #feedbackSection {
+            max-width: 48rem;
+            margin: 0 auto;
+        }
+
+        #overallScore {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+        #scoreBar {
+            height: 0.625rem;
+            background-color: #4f46e5;
+            border-radius: 9999px;
+            transition: width 0.3s;
+        }
+
+        /* Common Components */
+        .card {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: 1.5rem;
+            width: 100%; /* Make sure it's responsive */
+            max-width: 500px; /* Set a max width */
+            text-align: center; /* Center the text inside */
+        }
+
+        .header-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        button {
+            background-color: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #4338ca;
+        }
+
+        button:disabled {
+            background-color: #9ca3af;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 0.625rem;
+            background-color: #e5e7eb;
+            border-radius: 9999px;
+            margin-bottom: 1.5rem;
+        }
+
+        #improvementAreas {
+            list-style-type: disc;
+            margin-left: 1.5rem;
+            color: #4b5563;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <div class="nav-container">
+                <img src="/templates/images/logo1.jpg" alt="InterviewGenius Logo" width="30" height="30">
+                <div id="userInfo" class="hidden">
+                    <span id="userEmail"></span>
+                    <button onclick="logout()">Logout</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div id="welcomeSection">
+            <h1>Practice Interviews with AI</h1>
+            <p>Perfect your interview skills with personalized AI feedback</p>
+        </div>
+        <div id="roleSelection" class="card">
+            <h2 class="section-title">Select Your Role</h2>
+            <select id="roleSelect">
+                <option value="">Select a role...</option>
+            </select>
+            <button onclick="startInterview()">Start Interview</button>
+        </div>
+
+        <div id="interviewSection" class="hidden">
+            <div class="card">
+                <div class="header-group">
+                    <h2 id="questionNumber">Question 1</h2>
+                    <div id="timer">00:00</div>
+                </div>
+                <div>
+                    <p id="currentQuestion"></p>
+                    <p id="questionCategory"></p>
+                </div>
+                <textarea id="answerInput" placeholder="Type your answer here..."></textarea>
+                <div class="button-group">
+                    <button id="prevBtn" onclick="previousQuestion()">Previous</button>
+                    <button id="nextBtn" onclick="nextQuestion()">Next</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="feedbackSection" class="hidden">
+            <div class="card">
+                <h2 class="section-title">Interview Feedback</h2>
+                <div class="header-group">
+                    <span>Overall Score</span>
+                    <span id="overallScore"></span>
+                </div>
+                <div class="progress-bar">
+                    <div id="scoreBar"></div>
+                </div>
+                <div>
+                    <h3 class="section-title">Detailed Feedback</h3>
+                    <p id="detailedFeedback"></p>
+                </div>
+                <div>
+                    <h3 class="section-title">Areas for Improvement</h3>
+                    <ul id="improvementAreas"></ul>
+                </div>
+                <button onclick="startNewInterview()">Start New Interview</button>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentQuestions = [];
+        let currentAnswers = [];
+        let currentQuestionIndex = 0;
+        let timer;
+        let startTime;
+        let interviewId = null;
+
+        // Fetch available roles
+        async function fetchRoles() {
+            try {
+                const response = await fetch('/interview/roles');
+                const data = await response.json();
+                const select = document.getElementById('roleSelect');
+                data.roles.forEach(role => {
+                    const option = document.createElement('option');
+                    option.value = role;
+                    option.textContent = role;
+                    select.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching roles:', error);
+            }
+        }
+
+        // Start interview
+        async function startInterview() {
+            const role = document.getElementById('roleSelect').value;
+            if (!role) {
+                alert('Please select a role');
+                return;
+            }
+
+            try {
+                // Changed to use URL parameters instead of JSON body
+                const response = await fetch(`/interview/generate?role=${encodeURIComponent(role)}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentQuestions = data.questions;
+                interviewId = data.id; // Store the interview ID
+                currentAnswers = new Array(currentQuestions.length).fill('');
+                currentQuestionIndex = 0;
+
+                document.getElementById('roleSelection').classList.add('hidden');
+                document.getElementById('interviewSection').classList.remove('hidden');
+                showCurrentQuestion();
+            } catch (error) {
+                console.error('Error starting interview:', error);
+                alert('Failed to start interview. Please try again.');
+            }
+        }
+
+        // Show current question
+        function showCurrentQuestion() {
+            const question = currentQuestions[currentQuestionIndex];
+            document.getElementById('questionNumber').textContent = `Question ${currentQuestionIndex + 1}/${currentQuestions.length}`;
+            document.getElementById('currentQuestion').textContent = question.text;
+            document.getElementById('questionCategory').textContent = `Category: ${question.category}`;
+            document.getElementById('answerInput').value = currentAnswers[currentQuestionIndex];
+
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').textContent = currentQuestionIndex === currentQuestions.length - 1 ? 'Submit' : 'Next';
+
+            startTimer();
+        }
+
+        // Timer functionality
+        function startTimer() {
+            if (timer) clearInterval(timer);
+            startTime = Date.now();
+            timer = setInterval(updateTimer, 1000);
+        }
+
+        function updateTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+            const seconds = (elapsed % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${minutes}:${seconds}`;
+        }
+
+        // Navigation
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                saveCurrentAnswer();
+                currentQuestionIndex--;
+                showCurrentQuestion();
+            }
+        }
+
+        function nextQuestion() {
+            saveCurrentAnswer();
+            if (currentQuestionIndex === currentQuestions.length - 1) {
+                submitInterview();
+            } else {
+                currentQuestionIndex++;
+                showCurrentQuestion();
+            }
+        }
+
+        function saveCurrentAnswer() {
+            currentAnswers[currentQuestionIndex] = document.getElementById('answerInput').value;
+        }
+
+        // Submit interview
+        // Update submitInterview function with detailed logging
+async function submitInterview() {
+    try {
+        saveCurrentAnswer(); // Save the last answer
+
+        // Validate that we have all required data
+        if (!interviewId) {
+            throw new Error('No interview ID found');
+        }
+
+        if (!currentQuestions || !currentAnswers || currentQuestions.length !== currentAnswers.length) {
+            throw new Error('Invalid questions or answers data');
+        }
+
+        // Prepare the submission data
+        const submission = {
+            interview_id: interviewId,
+            recordings: currentQuestions.map((question, index) => ({
+                question_id: question.id,
+                text: currentAnswers[index] || '', // Ensure empty string if no answer
+                duration: Math.floor((Date.now() - startTime) / 1000)
+            }))
+        };
+
+        // Send the submission request
+        const response = await fetch('/interview/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json' // Explicitly request JSON response
+            },
+            body: JSON.stringify(submission)
+        });
+
+        // Handle non-JSON responses
+        const contentType = response.headers.get('content-type');
+        if (!contentType || !contentType.includes('application/json')) {
+            const text = await response.text();
+            console.error('Received non-JSON response:', text);
+            throw new Error('Invalid response format from server');
+        }
+
+        const data = await response.json();
+
+        // Check for specific error responses
+        if (!response.ok) {
+            throw new Error(data.message || `Server error: ${response.status}`);
+        }
+
+        // Clear the timer if it's running
+        if (timer) {
+            clearInterval(timer);
+        }
+
+        // Show feedback if available
+        if (data.feedback_available && data.attempt_id) {
+            showFeedback(data.attempt_id);
+        } else {
+            throw new Error('No feedback data received');
+        }
+
+    } catch (error) {
+        console.error('Interview submission error:', error);
+
+        // Show user-friendly error message
+        const errorMessage = error.message === 'Failed to fetch'
+            ? 'Network error. Please check your connection and try again.'
+            : `Submission failed: ${error.message}`;
+
+        alert(errorMessage);
+
+        // Re-enable the submit button if it was disabled
+        const nextButton = document.getElementById('nextBtn');
+        if (nextButton) {
+            nextButton.disabled = false;
+        }
+    }
+}
+
+// Update showFeedback function to handle errors better
+async function showFeedback(attemptId) {
+    try {
+        if (!attemptId) {
+            throw new Error('No attempt ID provided');
+        }
+
+        const response = await fetch(`/interview/attempt/${attemptId}/feedback`, {
+            headers: {
+                'Accept': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Failed to fetch feedback: ${response.status}`);
+        }
+
+        const feedback = await response.json();
+
+        // Validate feedback data
+        if (!feedback || typeof feedback.overall_score === 'undefined') {
+            throw new Error('Invalid feedback data received');
+        }
+
+        // Update UI
+        document.getElementById('interviewSection').classList.add('hidden');
+        document.getElementById('feedbackSection').classList.remove('hidden');
+
+        // Update score display
+        const scorePercentage = (feedback.overall_score * 100).toFixed(1);
+        document.getElementById('overallScore').textContent = `${scorePercentage}%`;
+        document.getElementById('scoreBar').style.width = `${scorePercentage}%`;
+
+        // Update feedback text
+        document.getElementById('detailedFeedback').textContent =
+            feedback.detailed_feedback || 'No detailed feedback available';
+
+        // Update improvement areas
+        const improvementList = document.getElementById('improvementAreas');
+        improvementList.innerHTML = '';
+
+        if (Array.isArray(feedback.improvement_areas) && feedback.improvement_areas.length > 0) {
+            feedback.improvement_areas.forEach(area => {
+                const li = document.createElement('li');
+                li.textContent = area;
+                improvementList.appendChild(li);
+            });
+        } else {
+            improvementList.innerHTML = '<li>No specific areas for improvement identified</li>';
+        }
+
+    } catch (error) {
+        console.error('Error displaying feedback:', error);
+        alert('Unable to load feedback. Please try again or contact support.');
+
+        // Return to interview selection
+        startNewInterview();
+    }
+}
+
+        function startNewInterview() {
+            document.getElementById('feedbackSection').classList.add('hidden');
+            document.getElementById('roleSelection').classList.remove('hidden');
+            document.getElementById('roleSelect').value = '';
+        }
+
+        // Initialize
+        fetchRoles();
+
+
+    </script>
+</body>
+</html>
