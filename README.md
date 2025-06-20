@@ -150,6 +150,19 @@ http://127.0.0.1:8000
 [Watch demo video](Demo-Mock_interview.mp4)
 
 
+## OUTPUTS
+
+![image](https://github.com/user-attachments/assets/dc726eed-c0a5-4f50-a3a3-1ed90fc3bd85)
+![image](https://github.com/user-attachments/assets/224d4719-a9f5-49d1-a92a-676dd66eedb9)
+![image](https://github.com/user-attachments/assets/a1e3dff5-ee72-4e20-86ce-27fc50c8cabb)
+![image](https://github.com/user-attachments/assets/5a291860-715c-4d75-878a-e45813c200c7)
+![image](https://github.com/user-attachments/assets/a827f541-401d-434c-8dac-2b880b9fc45c)
+![image](https://github.com/user-attachments/assets/781ac5b1-443d-48d1-a4ab-faf9250199a5)
+![image](https://github.com/user-attachments/assets/1329b4b5-0903-4380-b10f-7db9def4ebf8)
+![image](https://github.com/user-attachments/assets/670c43f3-046c-4229-bcb6-eb4824d01814)
+![image](https://github.com/user-attachments/assets/cadec0cb-4134-4dce-b6ba-1ddcabe8af8c)
+![image](https://github.com/user-attachments/assets/c198686c-31cb-4599-b20e-b0a9201ae3da)
+![image](https://github.com/user-attachments/assets/055b0682-a046-40e2-bc3a-072cef54adfd)
 
 
 ## 📞 Contact
