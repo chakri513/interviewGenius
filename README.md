@@ -147,7 +147,7 @@ http://127.0.0.1:8000
 ---
 ## 📽️ Demo Video
 
-https://github.com/user-attachments/assets/4c2c5b49-3c29-414e-aa3d-323b3dc67229
+[Watch demo video](Demo-Mock_interview.mp4)
 
 
 ## OUTPUTS
@@ -165,6 +165,11 @@ https://github.com/user-attachments/assets/4c2c5b49-3c29-414e-aa3d-323b3dc67229
 ![image](https://github.com/user-attachments/assets/055b0682-a046-40e2-bc3a-072cef54adfd)
 
 
+## 📞 Contact
+
+📧 Email: [contact.interviewgenius@gmail.com](mailto:contact.interviewgenius@gmail.com)
+🌐 Website: [www.interviewgenius.com](http://www.interviewgenius.com)
 
 ---
 
+Let me know if you'd like this in `.md` format or need help publishing it on GitHub!
